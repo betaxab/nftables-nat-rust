@@ -46,11 +46,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         let script_prefix = String::from(
             "#!/usr/sbin/nft -f\n\
         \n\
-        add table ip nat\n\
-        delete table ip nat\n\
-        add table ip nat\n\
-        add chain nat PREROUTING { type nat hook prerouting priority -100 ; }\n\
-        add chain nat POSTROUTING { type nat hook postrouting priority 100 ; }\n\n",
+        add table ip anat\n\
+        delete table ip anat\n\
+        add table ip anat\n\
+        add chain ip anat PREROUTING { type nat hook prerouting priority -100; policy accept; }\n\
+        add chain ip anat POSTROUTING { type nat hook postrouting priority 100; policy accept; }\n\
+        add chain ip anat INPUT { type nat hook input priority 100; policy accept; }\n\
+        add chain ip anat OUTPUT { type nat hook output priority -100; policy accept; }\n\n",
         );
 
         let vec = config::read_config(conf);
